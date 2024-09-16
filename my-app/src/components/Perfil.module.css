@@ -1,0 +1,31 @@
+.sidebar {
+
+}
+
+.sidebar_pic {
+    width: 194px;
+    height: 193px;
+    top: 30px;
+    left: 208px;
+    gap: 0px;
+    opacity: 0px;
+    
+}
+
+.sidebar header {
+    width: 1305px;
+    height: 260px;
+    left: 135px;
+    gap: 0px;
+    opacity: 0px;
+}
+
+.sidebar button {
+    width: 288px;
+    height: 67px;
+    top: 30px;
+    left: 1121px;
+    gap: 0px;
+    border-radius: 15px 0px 0px 0px;
+    opacity: 0px;
+}
