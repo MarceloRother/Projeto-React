@@ -1,12 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
-import Perfil from './components/Perfil';
+import Perfil from "./components/Perfil";
 
 function App() {
   return (
     <div className="App">
-      <Perfil />
+      <Perfil name="Marcelo" age="20" city="Juiz de Fora" art="Cantor" />
     </div>
   );
 }
