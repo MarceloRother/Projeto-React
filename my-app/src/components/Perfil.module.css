@@ -47,3 +47,12 @@
     top: 10px;
     right: 10px;
 }
+
+.container {
+    display: flex;
+}
+.div1, .div2 {
+    width: 50%; /* Ajuste o tamanho conforme necessário */
+    padding: 10px;
+    border: 1px solid #000;
+}

@@ -8,55 +8,71 @@ import EditPerfil from "../form/EditPerfil";
 import Publication from "./Publication";
 
 function Perfil() {
-  const [dadosPerfil, setDadosPerfil] = useState(null); // Estado inicial como null
+  const [dadosPerfil, setDadosPerfil] = useState(null);
+
   const [showEditPerfil, setShowEditPerfil] = useState(false);
+
   const [showPublication, setShowPublication] = useState(true);
   const [showCalendary, setShowCalendary] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetch("http://localhost:5000/perfil", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setDadosPerfil(data);
+          console.log(data);
+        })
+        .catch((error) => console.error("Erro ao buscar os dados:", error));
+    }, 300);
+  }, []);
+
+  if (!dadosPerfil || !dadosPerfil.perfil) {
+    return <div>Carregando...</div>;
+  }
+
+  const info = dadosPerfil.perfil[0]; 
 
   function toggleEditPerfil() {
     setShowEditPerfil(!showEditPerfil);
   }
 
-  function showPublicationSection() {
+  function togglePublication() {
     setShowPublication(true);
     setShowCalendary(false);
   }
 
-  function showCalendarySection() {
+  function toggleCalendary() {
     setShowCalendary(true);
     setShowPublication(false);
   }
 
-  function editPost(project) {
-    setDadosPerfil(info)
+  function handleSubmit(e) {
+    e.preventDefault();
   }
 
-  useEffect(() => {
-    // Simulação de chamada de API
-    const fetchData = async () => {
-      const data = {
-        "perfil": [
-          {
-            "name": "Marcelo",
-            "age": "20",
-            "city": "Juiz de Fora",
-            "art": "Cantor",
-            "about": "Nascido em Juiz de Fora, amo animais e toco violão"
-          }
-        ]
-      };
-      setDadosPerfil(data);
-    };
-
-    fetchData();
-  }, []);
-
-  // Verificando se dadosPerfil está disponível antes de acessar info
-  if (!dadosPerfil) {
-    return <div>Carregando...</div>;
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setDadosPerfil((prevState) => {
+      if (prevState && prevState.perfil && prevState.perfil.length > 0) {
+        return {
+          ...prevState,
+          perfil: [
+            {
+              ...prevState.perfil[0],
+              [name]: value,
+            },
+          ],
+        };
+      }
+      return prevState; // Retorna o estado anterior se as condições não forem atendidas
+    });
   }
-
-  const info = dadosPerfil.perfil[0]; // Acessando o primeiro perfil após os dados estarem disponíveis
 
   return (
     <div className={styles.perfil}>
@@ -72,33 +88,35 @@ function Perfil() {
         </button>
         {!showEditPerfil ? (
           <div>
-            <div>
-              <ul> {/* Usando <ol> para lista ordenada */}
-                <li>Nome: {info.name}</li>
-                <li>Idade: {info.age}</li>
-                <li>Cidade: {info.city}</li>
-                <li>Arte: {info.art}</li>
-              </ul>
+            <div className={styles.container}>
+              <div className={styles.div1}>
+                <ul>
+                  <li>Nome: {info.name}</li>
+                  <li>Idade: {info.age}</li>
+                  <li>Cidade: {info.city}</li>
+                  <li>Arte: {info.art}</li>
+                </ul>
+              </div>
+              <div className={styles.div2}>
+                <p>{info.about}</p>
+              </div>
             </div>
             <div>
-              <p>{info.about}</p>
+              <button onClick={togglePublication}>PUBLICAÇÕES</button>
+              <button onClick={toggleCalendary}>AGENDA</button>
+            </div>
+            <div>
+              {showPublication && <Publication />}
+              {showCalendary && <div>Seção de Agenda</div>}
             </div>
           </div>
         ) : (
-          <EditPerfil info={{info, editPost}}/>
+          <EditPerfil
+            info={info}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
         )}
-        <div>
-          <button onClick={showPublicationSection}>PUBLICACOES</button>
-          <button onClick={showCalendarySection}>AGENDA</button>
-        </div>
-        <div>
-          {showPublication && (
-            <div>
-              <Publication />
-            </div>
-          )}
-          {showCalendary && <div>Seção de Agenda</div>}
-        </div>
       </header>
     </div>
   );
