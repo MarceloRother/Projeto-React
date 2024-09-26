@@ -7,15 +7,31 @@ import background from "../img/pngtree-rainbow-curves-abstract-colorful-backgrou
 import EditPerfil from "../form/EditPerfil";
 import Publication from "./Publication";
 
-function Perfil() {
-  const [dadosPerfil, setDadosPerfil] = useState(null);
+function Perfil(info) {
+  const [dadosPerfil, setDadosPerfil] = useState(info);
+
+  useEffect(() => {
+    setDadosPerfil(info);
+  }, []);
+
+  const [name, setName] = useState(dadosPerfil.name);
+  const [age, setAge] = useState(dadosPerfil.age);
+  const [city, setCity] = useState(dadosPerfil.city);
+  const [art, setArt] = useState(dadosPerfil.art);
+
+  function update() {
+    setDadosPerfil([...name]);
+    setDadosPerfil([...age]);
+    setDadosPerfil([...city]);
+    setDadosPerfil([...art]);
+  }
 
   const [showEditPerfil, setShowEditPerfil] = useState(false);
 
   const [showPublication, setShowPublication] = useState(true);
   const [showCalendary, setShowCalendary] = useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     setTimeout(() => {
       fetch("http://localhost:5000/perfil", {
         method: "GET",
@@ -30,13 +46,13 @@ function Perfil() {
         })
         .catch((error) => console.error("Erro ao buscar os dados:", error));
     }, 300);
-  }, []);
+  }, []);*/
 
-  if (!dadosPerfil || !dadosPerfil.perfil) {
+  /*if (!dadosPerfil || !dadosPerfil.perfil) {
     return <div>Carregando...</div>;
-  }
+  }*/
 
-  const info = dadosPerfil.perfil[0]; 
+  //const info = dadosPerfil.perfil[0];
 
   function toggleEditPerfil() {
     setShowEditPerfil(!showEditPerfil);
@@ -50,28 +66,6 @@ function Perfil() {
   function toggleCalendary() {
     setShowCalendary(true);
     setShowPublication(false);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setDadosPerfil((prevState) => {
-      if (prevState && prevState.perfil && prevState.perfil.length > 0) {
-        return {
-          ...prevState,
-          perfil: [
-            {
-              ...prevState.perfil[0],
-              [name]: value,
-            },
-          ],
-        };
-      }
-      return prevState; // Retorna o estado anterior se as condições não forem atendidas
-    });
   }
 
   return (
@@ -112,9 +106,12 @@ function Perfil() {
           </div>
         ) : (
           <EditPerfil
-            info={info}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
+            info={dadosPerfil}
+            setName={setName}
+            setAge={setAge}
+            setCity={setCity}
+            setArt={setArt}
+            update={update}
           />
         )}
       </header>
