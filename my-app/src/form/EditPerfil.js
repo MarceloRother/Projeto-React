@@ -1,6 +1,8 @@
 import Input from "./Input.js";
 import SubmitButton from "./SubmitButton.js";
 
+import styles from "./Input.module.css"
+
 function EditPerfil({
   info,
   setName,
@@ -10,7 +12,8 @@ function EditPerfil({
   update
 }) {
   return (
-    <form>
+    <div>
+      <form className={styles.form}>
       <Input
         type="text"
         text="Nome"
@@ -33,7 +36,7 @@ function EditPerfil({
         }}
         value={info.age}
       />
-      <Input
+      <Input 
         type="text"
         text="Cidade"
         name="city"
@@ -53,10 +56,11 @@ function EditPerfil({
           setArt(e.target.value)
           update()
         }}
-        value={""}
+        value={info.art}
       />
-      <SubmitButton update={update}/>
     </form>
+    <SubmitButton update={update}/>
+    </div>
   );
 }
 

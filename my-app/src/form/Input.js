@@ -2,9 +2,10 @@ import styles from "./Input.module.css";
 
 function Input({ type, text, name, placeholder, handleOnChange, value }) {
   return (
-    <div >
+    <div>
       <label htmlFor={name}>{text}:</label>
       <input
+        className={styles.input}
         type={type}
         name={name}
         id={name}

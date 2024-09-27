@@ -20,10 +20,13 @@ function Perfil(info) {
   const [art, setArt] = useState(dadosPerfil.art);
 
   function update() {
-    setDadosPerfil([...name]);
+    /*setDadosPerfil([...name]);
     setDadosPerfil([...age]);
     setDadosPerfil([...city]);
-    setDadosPerfil([...art]);
+    setDadosPerfil([...art]);*/
+
+    const newDados = [name, age, city, art];
+    setDadosPerfil(newDados);
   }
 
   const [showEditPerfil, setShowEditPerfil] = useState(false);
@@ -85,19 +88,19 @@ function Perfil(info) {
             <div className={styles.container}>
               <div className={styles.div1}>
                 <ul>
-                  <li>Nome: {info.name}</li>
-                  <li>Idade: {info.age}</li>
-                  <li>Cidade: {info.city}</li>
-                  <li>Arte: {info.art}</li>
+                  <li><span>Nome:</span> <p>{info.name}</p></li>
+                  <li><span>Idade:</span> <p>{info.age}</p></li>
+                  <li><span>Cidade:</span> <p>{info.city}</p></li>
+                  <li><span>Arte:</span> <p>{info.art}</p></li>
                 </ul>
               </div>
               <div className={styles.div2}>
-                <p>{info.about}</p>
+                <span>SOBRE:</span><p>{info.about}</p>
               </div>
             </div>
             <div>
-              <button onClick={togglePublication}>PUBLICAÇÕES</button>
-              <button onClick={toggleCalendary}>AGENDA</button>
+              <button className={styles.btn_pub} onClick={togglePublication}>PUBLICAÇÕES</button>
+              <button className={styles.btn_calendary} onClick={toggleCalendary}>AGENDA</button>
             </div>
             <div>
               {showPublication && <Publication />}
@@ -115,6 +118,9 @@ function Perfil(info) {
           />
         )}
       </header>
+      <div>
+        <p>Navbar</p>
+      </div>
     </div>
   );
 }
